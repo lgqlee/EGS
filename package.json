@@ -1,0 +1,32 @@
+{
+    "name": "egs",
+    "version": "0.0.2",
+    "description": "An web framework for play.cn",
+    "main": "index",
+    "scripts": {
+        "start": "node app.js",
+        "test": "mocha test/*.js"
+    },
+    "preferGlobal": "true",
+    "bin": {
+        "egs": "bin/egs.js"
+    },
+    "dependencies": {
+        "express": "3.5.1",
+        "later": "*",
+        "commander": "*",
+        "redis": "*",
+        "bunyan": "*",
+        "mysql": "*"
+    },
+    "devDependencies": {
+        "mocha": "~1.17.1",
+        "should": "~2.1.1",
+        "superagent": "*"
+    },
+    "engines": {
+        "node": "*"
+    },
+    "author": "Vincent Ting",
+    "license": "ISC"
+}
