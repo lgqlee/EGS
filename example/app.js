@@ -1,0 +1,1 @@
+var egs = require('../index');

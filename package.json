@@ -3,9 +3,10 @@
     "version": "0.0.2",
     "description": "An web framework for play.cn",
     "main": "index",
+    "repository": "https://github.com/vincenting/EGS",
     "scripts": {
         "start": "node app.js",
-        "test": "mocha test/*.js"
+        "test": "mocha tests/*/*.js"
     },
     "preferGlobal": "true",
     "bin": {
@@ -16,7 +17,6 @@
         "later": "*",
         "commander": "*",
         "redis": "*",
-        "bunyan": "*",
         "mysql": "*"
     },
     "devDependencies": {
