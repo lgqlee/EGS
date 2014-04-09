@@ -6,7 +6,7 @@ var function_loader = require('../../lib/core_loader/function_loader');
 
 describe('function config', function () {
     it('should load form controller', function (done) {
-        function_loader.load('demo', 'controllers', 'hello#world').should.eql(require('../apps/demo/controllers/hello').world);
+        function_loader.load('demo', 'controllers', 'user#hello').should.eql(require('../apps/demo/controllers/user_controller').hello);
         done();
     });
     it('should load form task', function (done) {

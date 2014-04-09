@@ -1,3 +1,3 @@
-module.exports.world = function (req, res) {
+module.exports.hello = function (req, res) {
     res.send('hello world');
 };
