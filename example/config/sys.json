@@ -1,0 +1,4 @@
+{
+    "global_route_namespace": "ajax",
+    "redis_persist_key": "egame_act_operate_db_queue"
+}

@@ -1,3 +1,9 @@
 {
-    
+    "apps_dir": "apps",
+    "apps_config_dir": "config",
+    "app_config_dir": "config",
+    "app_controllers_dir": "controllers",
+    "app_tasks_dir": "tasks",
+    "global_route_namespace": "ajax",
+    "redis_persist_key": "egame_act_operate_db_queue"
 }
