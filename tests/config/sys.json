@@ -1,4 +1,4 @@
 {
-    "global_route_namespace": "demo",
+    "global_route_namespace": "test",
     "redis_persist_key": "queue"
 }
