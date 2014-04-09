@@ -1,0 +1,6 @@
+{
+    "namespace": "demo",
+    "routes": {
+        "get /hello": "hello#world"
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "production": {
+        "redis": {
+            "host": "localhost"
+        },
+        "mysql": {
+            "host": "localhost",
+            "user": "root",
+            "password": "123456",
+            "port": 3308,
+            "database": "production"
+        }
+    },
+    "development": {
+        "redis": {
+            "host": "localhost"
+        },
+        "mysql": {
+            "host": "localhost",
+            "user": "root",
+            "password": "123456",
+            "port": 3308,
+            "database": "development"
+        }
+    }
+}

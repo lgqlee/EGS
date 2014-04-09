@@ -1,0 +1,4 @@
+{
+    "global_route_namespace": "demo",
+    "redis_persist_key": "queue"
+}
