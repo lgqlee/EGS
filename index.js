@@ -3,8 +3,8 @@ var core_loader = require('./lib/core_loader');
 var express = require('express');
 var http = require('http');
 
+// 项目初始化
 var app = express();
-
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.use(express.json());
@@ -15,6 +15,7 @@ app.use(app.router);
 
 
 module.exports.start = function (callback) {
+    // 载入全局的路由
     core_loader.apps.forEach(function (app_name) {
         var app_routes = core_loader.config.load(
                 app_name, 'routes'),
@@ -30,6 +31,7 @@ module.exports.start = function (callback) {
             }
         }
     });
+    // Http 服务启动，并将callback上下文更换至 app
     http.createServer(app).listen(app.get('port'), function () {
         callback.apply(app);
     })

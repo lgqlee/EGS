@@ -1,6 +1,6 @@
 {
     "name": "egs",
-    "version": "0.0.2",
+    "version": "0.0.8",
     "description": "An web framework for play.cn",
     "main": "index",
     "repository": "https://github.com/vincenting/EGS",
@@ -27,6 +27,6 @@
     "engines": {
         "node": "*"
     },
-    "author": "Vincent Ting",
+    "author": "egame",
     "license": "ISC"
 }
