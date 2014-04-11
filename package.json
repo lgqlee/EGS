@@ -13,7 +13,8 @@
         "egs": "bin/egs.js"
     },
     "dependencies": {
-        "express": "3.5.1",
+        "express": "4.x.x",
+        "body-parser": "*",
         "later": "*",
         "commander": "*",
         "redis": "*",
