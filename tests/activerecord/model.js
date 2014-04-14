@@ -16,7 +16,7 @@ describe('model extend', function () {
         model_b._options['redis_prefix'].should.equal('Hello_');
         model_b._options['redis_prefix'].should.equal('Hello_');
         model_b._options['redis_only'].should.equal(true);
-        model_b._fileds.should.eql({name: {type: 'String'}});
+        model_b._fields['name'].should.eql({type: 'String'});
         done();
     });
 });
@@ -24,17 +24,12 @@ describe('model extend', function () {
 describe('model fields parse', function () {
     it('should as string', function (done) {
         var model_a = Model.extend('a', {name: 'String:vt', age: 'Int:13', create_at: 'DateTime#now'});
-        model_a._fileds.name.should.eql({type: 'String', default: 'vt'});
-        done();
-    });
-    it('should as int', function (done) {
-        var model_b = Model.extend('a', {name: 'String:vt', age: 'Int:13', create_at: 'DateTime#now'});
-        model_b._fileds.age.default.should.equal(13);
+        model_a._fields.name.should.eql({type: 'String', default: 'vt'});
         done();
     });
     it('should as func', function (done) {
         var model_c = Model.extend('a', {name: 'String:vt', age: 'Int:13', create_at: 'DateTime#now'});
-        model_c._fileds.create_at.should.eql({type: 'DateTime', func: 'now'});
+        model_c._fields.create_at.should.eql({type: 'DateTime', func: 'now'});
         done();
     });
 });

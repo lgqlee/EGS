@@ -16,7 +16,7 @@
         "express": "4.x.x",
         "later": "*",
         "commander": "*",
-        "redis": "*",
+        "redis": "~0.10.0",
         "mysql": "*",
         "moment": "*"
     },

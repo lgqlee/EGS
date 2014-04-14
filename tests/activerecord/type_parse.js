@@ -14,3 +14,38 @@ describe('Int', function () {
         done();
     });
 });
+
+describe('Float', function () {
+    it('should return float', function (done) {
+        type_parse['Float'].parse('12.2').should.equal(12.2);
+        done();
+    });
+    it('should return string', function (done) {
+        type_parse['Float'].dbFormat(12.2).should.equal('12.2');
+        done();
+    });
+});
+
+
+describe('Float', function () {
+    it('should return float', function (done) {
+        type_parse['Float'].parse('12.2').should.equal(12.2);
+        done();
+    });
+    it('should return string', function (done) {
+        type_parse['Float'].dbFormat(12.2).should.equal('12.2');
+        done();
+    });
+});
+
+
+describe('Boolean', function () {
+    it('should return true', function (done) {
+        type_parse['Boolean'].parse('1').should.equal(true);
+        done();
+    });
+    it('should return string', function (done) {
+        type_parse['Boolean'].dbFormat(true).should.equal(1);
+        done();
+    });
+});
