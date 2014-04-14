@@ -14,11 +14,11 @@
     },
     "dependencies": {
         "express": "4.x.x",
-        "body-parser": "*",
         "later": "*",
         "commander": "*",
         "redis": "*",
-        "mysql": "*"
+        "mysql": "*",
+        "moment": "*"
     },
     "devDependencies": {
         "mocha": "~1.17.1",
