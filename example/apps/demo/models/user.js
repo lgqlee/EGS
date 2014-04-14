@@ -1,4 +1,5 @@
-var Model = {extend: function(){}, fn: {}, verify: {}};
+var Model = {extend: function () {
+}, fn: {}, verify: {}};
 
 var User = Model.extend('user', {
     name: 'String',
@@ -8,10 +9,10 @@ var User = Model.extend('user', {
     sex: 'String:female'
 });
 
-User.fn.current_time  = function(){
+User.fn.current_time = function () {
     return Date.now();
 };
 
-User.verify.name = function(callback){
-    callback(true);
+User.verify.name = function (name) {
+    return name === 'vt';
 };
