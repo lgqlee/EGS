@@ -3,7 +3,7 @@
     "version": "0.0.10",
     "description": "An web framework for play.cn",
     "main": "index",
-    "repository": "https://github.com/vincenting/EGS",
+    "repository": "https://github.com/egame/EGS",
     "scripts": {
         "start": "node app.js",
         "test": "mocha tests/*/*.js"
