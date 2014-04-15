@@ -11,7 +11,7 @@ describe('parse route_obj', function () {
         ).should.eql({
                 method: 'get',
                 url: '/test/demo/hello',
-                callback: require('../apps/demo/controllers/user_controller').hello
+                fn: require('../apps/demo/controllers/user_controller').hello
             });
         done();
     });
@@ -20,7 +20,7 @@ describe('parse route_obj', function () {
         ).should.eql({
                 method: 'get',
                 url: '/test/hello',
-                callback: require('../apps/demo/controllers/user_controller').hello
+                fn: require('../apps/demo/controllers/user_controller').hello
             });
         done();
     });

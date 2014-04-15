@@ -18,7 +18,8 @@
         "commander": "*",
         "redis": "~0.10.0",
         "mysql": "*",
-        "moment": "*"
+        "moment": "*",
+        "mkdirp": "*"
     },
     "devDependencies": {
         "mocha": "~1.17.1",

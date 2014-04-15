@@ -7,18 +7,30 @@
 
 var program = require('commander');
 var version = require('../package')['version'];
-var core_loader = require('../lib/core_loader');
-var task_parse = require('../lib/task_parse').parse;
-var apps = core_loader.apps;
-var config_load = core_loader.config.load;
-
 program.version(version).parse(process.argv);
+var scaffold = require('./scaffold');
 
 var func_args = program.args.splice(1),
     func_name = program.args[0],
     cur_apps;
 
+// 如果是初始化当前文件夹
+if (func_name === 'create') {
+    scaffold.create(func_args[1] || 'egs_app');
+    return;
+}
+
+var core_loader = require('../lib/core_loader');
+var task_parse = require('../lib/task_parse').parse;
+var apps = core_loader.apps;
+var config_load = core_loader.config.load;
+
 switch (func_name) {
+    case 'generate':
+        func_args.forEach(function (app) {
+            scaffold.generate(core_loader.root_path, app);
+        });
+        break;
     case 'init':
         // 根据 args 来决定调用的 apps，如果为空则调用全部 apps 的初始化任务。
         cur_apps = func_args.length ? func_args : apps;

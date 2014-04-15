@@ -1,5 +1,0 @@
-{
-    "global_route_namespace": "ajax",
-    "redis_persist_key": "egame_act_operate_db_queue",
-    "db_prefix": "egame_act_"
-}

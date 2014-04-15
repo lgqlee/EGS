@@ -7,7 +7,7 @@
             "every": "3 hour",
             "after": 0,
             "before": 10,
-            "callback": "hello#world"
+            "fn": "hello#world"
         }
     ]
 }
