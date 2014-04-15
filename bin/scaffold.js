@@ -14,7 +14,7 @@ var package_json = function (name) {
         '       "test": "mocha tests/*/*.js"',
         '   },',
         '   "dependencies": {',
-        '       "egs": "*ges"',
+        '       "egserver": "*"',
         '   },',
         '   "devDependencies": {',
         '       "mocha": "~1.17.1",',
@@ -26,7 +26,7 @@ var package_json = function (name) {
 };
 
 var app_js = [
-    "var egs = require('egs');",
+    "var egs = require('egserver');",
     'egs.start(function () {',
     "    console.log('Server is running at port: ' + this.get('port'));",
     '});'
@@ -133,7 +133,7 @@ module.exports.create = function (name) {
             write(config_dir + '/database.json', database_json(name));
             write(config_dir + '/sys.json', sys_json);
         });
-        mkdir(app_dir + '/tests', create_keep);
+        mkdir(current_dir + '/tests', create_keep);
         write(current_dir + '/app.js', app_js);
         write(current_dir + '/package.json', package_json(name));
     });

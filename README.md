@@ -25,5 +25,5 @@
 
 安装 npm 包
 
-	npm install egs -g
+	npm install egserver -g
 
