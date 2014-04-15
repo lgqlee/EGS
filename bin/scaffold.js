@@ -91,6 +91,12 @@ var tasks_json = [
     '}'
 ].join(eol);
 
+var requirements_json = [
+    '[',
+    '',
+    ']'
+].join(eol);
+
 var create_keep = function (dir) {
     write(dir + '/.keep', '');
 };
@@ -141,6 +147,7 @@ module.exports.generate = function (app_root, name) {
         mkdir(app_dir + '/config', function (config_dir) {
             write(config_dir + '/routes.json', routes_json);
             write(config_dir + '/tasks.json', tasks_json);
+            write(config_dir + '/requirements.json', requirements_json);
         });
     });
 };

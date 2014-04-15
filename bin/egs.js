@@ -9,6 +9,7 @@ var program = require('commander');
 var version = require('../package')['version'];
 program.version(version).parse(process.argv);
 var scaffold = require('./scaffold');
+var npm = require('npm');
 
 var func_args = program.args.splice(1),
     func_name = program.args[0],
@@ -45,6 +46,22 @@ switch (func_name) {
         cur_apps.forEach(function (app) {
             config_load(app, 'tasks')['timer'].forEach(function (task_str) {
                 task_parse(app, task_str)();
+            });
+        });
+        break;
+    case 'install':
+        // 根据 args 来决定安装依赖的 apps，如果为空则调用全部 apps。
+        cur_apps = func_args.length ? func_args : apps;
+        npm.load({}, function (err) {
+            if (err) throw Error(err);
+            npm.on("log", function (message) {
+                if (arg) console.log(message)
+            });
+            cur_apps.forEach(function (app) {
+                var requirements = config_load(app, 'requirements');
+                npm.commands.install(requirements, function (err) {
+                    if (err) throw Error(err);
+                });
             });
         });
         break;

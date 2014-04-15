@@ -19,7 +19,8 @@
         "redis": "~0.10.0",
         "mysql": "*",
         "moment": "*",
-        "mkdirp": "*"
+        "mkdirp": "*",
+        "npm": "*"
     },
     "devDependencies": {
         "mocha": "~1.17.1",

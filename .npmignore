@@ -1,6 +1,5 @@
 .git*
 docs/
-examples/
 node_modules/
 test/
 .idea/
