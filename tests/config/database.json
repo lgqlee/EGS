@@ -7,6 +7,7 @@
             "host": "localhost",
             "user": "root",
             "password": "930309",
+            "port": 3306,
             "database": "production"
         }
     },
@@ -18,6 +19,7 @@
             "host": "localhost",
             "user": "root",
             "password": "930309",
+            "port": 3306,
             "database": "development"
         }
     }
