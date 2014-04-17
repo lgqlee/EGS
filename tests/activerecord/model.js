@@ -1,5 +1,28 @@
 var path = require('path');
+var mysql = require('../../lib/active_record/db_pool').mysql;
 process.env['EGS_ROOT'] = path.join(process.cwd(), 'tests/apps');
+
+var test_table = 'test_table';
+
+var db_init = function (fn) {
+    mysql.getConnection(function (err, connection) {
+        if (err) throw Error(err);
+        connection.query('CREATE DATABASE IF NOT EXISTS development', function (err) {
+            if (err) throw Error(err);
+            connection.query('DROP TABLE IF EXISTS ' + test_table + ';', function (err) {
+                if (err) throw Error(err);
+                connection.query('create table ' + test_table + '  (id varchar(45) not null unique,name varchar(45), age varchar(45)); ', function (err) {
+                    if (err) throw Error(err);
+                    connection.query('insert into ' + test_table + ' values("123456", "vt", "15"),("123457", "paul", "22");', function (err) {
+                        if (err) throw Error(err);
+                        fn();
+                    })
+                });
+                connection.release();
+            });
+        })
+    });
+};
 
 var should = require('should');
 var Model = require('../../lib/active_record/model');
@@ -60,6 +83,15 @@ describe('model find', function () {
 
 });
 
-describe('model where', function () {
+var User = Model.extend('b', {name: 'String:vt', age: 'Int:13'}, {db_name: test_table});
 
+describe('model where', function () {
+    it('should length 1', function (done) {
+        db_init(function () {
+            User.where({age:{gt:16}}, function(objs){
+                objs.length.should.equal(1);
+                done();
+            });
+        });
+    });
 });

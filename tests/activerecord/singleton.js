@@ -14,4 +14,12 @@ describe('singleton init', function () {
             done();
         })
     });
+    it('should remain', function (done) {
+        Singleton.create('test', {
+            "num": "Int"
+        }, function (singleton) {
+            singleton.num.should.equal(15);
+            done();
+        })
+    });
 });

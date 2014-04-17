@@ -4,13 +4,26 @@ process.env['EGS_ROOT'] = path.join(process.cwd(), 'tests/apps');
 var should = require('should');
 var Model = require('../../lib/active_record/model');
 var redis = require('../../lib/active_record/db_pool').redis;
+var mysql = require('../../lib/active_record/db_pool').mysql;
 var type_parse = require('../../lib/active_record/type_parse');
 var Queue = require('../../lib/active_record/queue');
 var redis_persist_key = require('../../lib/core_loader').config['sys']['redis_persist_key'];
 
+var test_table = 'test_table';
+
 var mysql_queue = new Queue('db_queue', {
     db_name: redis_persist_key
 });
+
+var db_init = function (fn) {
+    mysql.getConnection(function (err, connection) {
+        if (err) throw Error(err);
+        connection.query('drop database if exists ' + test_table + ';', function (err, rows) {
+            if (err) throw Error(err);
+            connection.release();
+        });
+    });
+};
 
 
 var User = Model.extend('user', {name: 'String:vt', age: 'Int:13', create_at: 'DateTime#now'}, {
