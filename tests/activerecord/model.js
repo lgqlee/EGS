@@ -33,3 +33,33 @@ describe('model fields parse', function () {
         done();
     });
 });
+
+describe('model init', function () {
+    it('should return directly', function (done) {
+        var model_b = Model.extend('a', {name: 'String:vt', age: 'Int:13', create_at: 'DateTime#now'});
+        var jack = model_b.init({'name': 'jack'});
+        jack.name.should.equal('jack');
+        done();
+    });
+});
+
+describe('model create', function () {
+    it('should async', function (done) {
+        var model_b = Model.extend('b', {name: 'String:vt', age: 'Int:13', create_at: 'DateTime#now'});
+        model_b.create({
+            name: 'jack',
+            age: 22
+        }, function (err, user) {
+            user.age.should.equal(22);
+            done();
+        });
+    });
+});
+
+describe('model find', function () {
+
+});
+
+describe('model where', function () {
+
+});
