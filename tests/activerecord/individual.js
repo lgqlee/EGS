@@ -16,18 +16,29 @@ var mysql_queue = new Queue('db_queue', {
 });
 
 var db_init = function (fn) {
-    mysql.getConnection(function (err, connection) {
-        if (err) throw Error(err);
-        connection.query('drop database if exists ' + test_table + ';', function (err, rows) {
+    redis.flushdb(function () {
+        mysql.getConnection(function (err, connection) {
             if (err) throw Error(err);
-            connection.release();
+            connection.query('CREATE DATABASE IF NOT EXISTS development', function (err) {
+                if (err) throw Error(err);
+                connection.query('DROP TABLE IF EXISTS ' + test_table + ';', function (err) {
+                    if (err) throw Error(err);
+                    connection.query('create table ' + test_table + '  (id varchar(45) not null unique,name varchar(45), age varchar(45)); ', function (err) {
+                        if (err) throw Error(err);
+                        connection.query('insert into ' + test_table + ' values("123456", "vt", "15"),("123457", "paul", "22");', function (err) {
+                            if (err) throw Error(err);
+                            fn();
+                        })
+                    });
+                    connection.release();
+                });
+            })
         });
     });
 };
 
-
 var User = Model.extend('user', {name: 'String:vt', age: 'Int:13', create_at: 'DateTime#now'}, {
-    expire: 100
+    expire: 100000
 });
 
 User.verify.age = function (age) {
@@ -110,5 +121,42 @@ describe('model verify', function () {
                 })
             });
         })
+    });
+});
+
+describe('model incrby', function () {
+    it('should equal', function (done) {
+        User.create({
+            name: 'vincent',
+            age: 22
+        }, function (err, user) {
+            user.incrBy('age', 1, function (age) {
+                redis.hgetall(user._options['redis_prefix'] + user.id, function (err, hash) {
+                    hash['age'].should.eql(age);
+                    done();
+                })
+            });
+        });
+    });
+});
+
+describe('model destroy', function () {
+    it('should equal', function (done) {
+        User.create({
+            name: 'vincent',
+            age: 22
+        }, function (err, user) {
+            redis.flushall(function () {
+                user.destroy(function () {
+                    redis.exists(user._options['redis_prefix'] + user.id, function (err, result) {
+                        result.should.eql(false);
+                        mysql_queue.pop(function (obj) {
+                            JSON.parse(obj).method.should.equal('delete');
+                            done();
+                        })
+                    })
+                })
+            });
+        });
     });
 });
