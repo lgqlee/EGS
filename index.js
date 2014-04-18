@@ -1,16 +1,27 @@
 var controller_parse = require('./lib/controller_parse').parse;
 var core_loader = require('./lib/core_loader');
 var express = require('express');
+var Model = require('./lib/active_record/model');
+var Queue = require('./lib/active_record/queue');
+var Singleton = require('./lib/active_record/singleton');
+var db_pool = require('./lib/active_record/db_pool');
 
 // 项目初始化
 var app = express();
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.disable('x-powered-by');
-app.use(function(req, res, next){
+app.use(function (req, res, next) {
     res.setHeader('Powered-by', 'EGame');
     next();
 });
+
+module.exports = {
+    Model: Model,
+    Queue: Queue,
+    Singleton: Singleton,
+    db_pool: db_pool
+};
 
 module.exports.start = function (fn) {
     // 载入全局的路由
