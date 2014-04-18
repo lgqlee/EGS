@@ -12,7 +12,7 @@ app.use(function(req, res, next){
     next();
 });
 
-module.exports.start = function (callback) {
+module.exports.start = function (fn) {
     // 载入全局的路由
     core_loader.apps.forEach(function (app_name) {
         var app_routes = core_loader.config.load(
@@ -25,11 +25,11 @@ module.exports.start = function (callback) {
                     route,
                     app_routes['routes'][route]
                 );
-                app[route_obj.method](route_obj.url, route_obj.callback);
+                app[route_obj.method](route_obj.url, route_obj.fn);
             }
         }
     });
-    // Http 服务启动，并将callback上下文更换至 app
+    // Http 服务启动，并将 fn 上下文更换至 app
     app.listen(app.get('port'));
-    callback.apply(app);
+    fn.apply(app);
 };
