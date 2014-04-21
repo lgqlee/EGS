@@ -49,6 +49,8 @@ switch (func_name) {
             });
         });
         break;
+    case 'start':
+
     case 'install':
         // 根据 args 来决定安装依赖的 apps，如果为空则调用全部 apps。
         cur_apps = func_args.length ? func_args : apps;
