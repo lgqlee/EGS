@@ -1,6 +1,6 @@
 {
     "name": "egserver",
-    "version": "0.0.15",
+    "version": "0.0.16",
     "description": "An web framework for play.cn",
     "main": "index",
     "repository": "https://github.com/egame/EGS",
