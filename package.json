@@ -1,9 +1,12 @@
 {
     "name": "egserver",
-    "version": "0.0.16",
+    "version": "0.0.17",
     "description": "An web framework for play.cn",
     "main": "index",
-    "repository": "https://github.com/egame/EGS",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/egame/EGS"
+    },
     "scripts": {
         "start": "node app.js",
         "test": "mocha tests/*/*.js"
@@ -14,6 +17,7 @@
     },
     "dependencies": {
         "express": "4.x.x",
+        "body-parser": "*",
         "later": "*",
         "commander": "*",
         "redis": "~0.10.0",
@@ -30,6 +34,16 @@
     "engines": {
         "node": "*"
     },
-    "author": "egame",
-    "license": "ISC"
+    "author": {
+        "name": "egame"
+    },
+    "license": "ISC",
+    "readme": "## 前言\r\n\r\n`我们不去制造万能的钥匙`\r\n\r\n不支持情景列表：\r\n\r\n1. 过度依赖关系型数据库，且存在复杂查询\r\n2. 路由简单且数量较少（EGS会增加项目的复杂度）\r\n3. 不喜欢 `redis`\r\n4. 需要使用模板、session\r\n\r\nreturn false;\r\n\r\n- - -\r\n\r\n最佳使用场景：\r\n\r\n1. 整体可以使用 `nosql` 设计实现，所有数据直接操作 redis（异步数据永久化）\r\n2. 仅提供无状态的接口\r\n3. 存在子应用的概念，且子应用间互相完全独立（例如独立活动的接口）\r\n4. 子应用需要独立依赖管理，无缝上下线、上线初始化操作、定时任务操作、下线后 `redis` 清理工作 \r\n\r\n## 开始\r\n\r\n运行环境：\r\n\r\n1. 需要提前安装好 `Mysql` 以及 `Redis`。生产环境中需要提前安装好 hiredis\r\n\r\n\t\tnpm install hiredis redis\r\n\r\n2. 全局安装 npm 包\r\n\r\n\t\tnpm install egserver -g\r\n\r\n3. 项目目录初始化\r\n\r\n\t\tmkdir egame\r\n\t\tcd egame\r\n\t\tegs create\r\n\t\tnpm install\r\n\t\r\n\t该操作会在当前目录下生成需要的所有文件\r\n\r\n4. 修改数据库配置文件至可用状态\r\n\t\r\n\t\tconfig/database.json\r\n\r\n5. 生成 app，其中第二个参数为 app 名称\r\n\r\n\t\tegs generate demo\r\n\t\t该命令会在 apps 文件夹中生成 app 需要的文件\r\n\r\n6. 开发环境运行\r\n\r\n\t\tnpm start\r\n\r\n\t访问 `localhost:3000`\r\n\r\n## 配置详情\r\n\r\n### 系统配置\r\n\r\n1. 数据库配置\r\n\r\n\t\tconfig/database.json\r\n\r\n2. 系统参数配置\r\n\r\n\t\tconfig/sys.json\r\n\t\r\n\t该文件主要来配置部分系统参数。\r\n\r\n\t\t\"global_route_namespace\" 全局默认的 URL 前缀，例如所有请求中都来自 /ajax/xx 可以在这里添加 \"ajax\"，设为 false 禁用该功能。\r\n\t    \"redis_persist_key\" Redis 中用于数据持久化的 List 对应的KEY。\r\n\t    \"db_prefix\" 全局数据库表名/Redis 中的key 的前缀\r\n\r\n### App 配置\r\n\r\napp 的配置都在 apps/#{app_name}/config 中存放\r\n\r\n1. 依赖关系配置\r\n\t\r\n\t\trequirements.json\r\n\r\n\t以列表的格式将所依赖的包在其中列出。例如： [\"request\"]。使用命令即可以安装该依赖。\r\n\r\n\t\tegs install #{app_name}\r\n\r\n2. 路由配置\r\n\r\n\t\troutes.json\r\n\r\n\t示例：\r\n\t\t\r\n\t\t{\r\n\t\t    \"namespace\": \"demo\",\r\n\t\t    \"routes\": {\r\n\t\t        \"get /hello\": \"hello#world\"\r\n\t\t    }\r\n\t\t}\r\n\r\n\t每个 App 的路由也存在 namespace 配置，用于区分每个 app 的 url。如果全局 namespace设置为 ajax ，同时该 app 中设置为 demo，那么该 app 下所有的 URL 都会被加上 /ajax/demo。\r\n\t\r\n\troutes 中存放 URL 请求规则与执行方法的对应关系，Key 为 \"#{method} #{url}\"，Value 为 \"#{controller_name}##{action}\"，例如如下：\r\n\t\t\r\n\t\t\"get /hello\": \"user#hello\"\r\n\r\n\t该语句的结果就是当 GET /ajax/demo/hello 这个 url 的时候，会去调用 controllers 下面的 user_controller.js 里面的 exports.hello 方法。\r\n\r\n\t其中 method 的支持以及 url 支持的模式，以及 hello 的写法参照 Express[[http://expressjs.com/4x/api.html](http://expressjs.com/4x/api.html)]\r\n\r\n\t简单的 user_controller.js 例子如下：\r\n\r\n\t\tmodule.exports.hello = function (req, res) {\r\n\t\t    res.send('hello world');\r\n\t\t};\r\n\r\n3. 任务配置\r\n\r\n\ttasks.json\r\n\r\n\t示例：\r\n\t\r\n\t\t{\r\n\t\t    \"init\": [\r\n\t\t        \"hello#world\"\r\n\t\t    ],\r\n\t\t    \"timer\": [\r\n\t\t        {\r\n\t\t            \"every\": \"3 second\",\r\n\t\t            \"after\": 0,\r\n\t\t            \"before\": 10,\r\n\t\t            \"fn\": \"hello#world\"\r\n\t\t        }\r\n\t\t    ]\r\n\t\t}\r\n\r\n\t任务分为初始任务以及定时任务。分别对应 init 和 timer。\r\n\r\n\t\\# 初始化任务 #：\"init\" 所对应的列表，例如 \"hello#world\" 对应的是 tasks 文件夹下面的 hello 方法中的 exports.world 方法。\r\n\r\n\t运行方式：\r\n\r\n\t\tegs init #{app_name}\r\n\t\r\n\t这会以此执行所有的初始化任务。\r\n\t\r\n\t\\# 定时任务 #：\"timer\" 所对应的列表，该功能通过 later.js[[http://bunkat.github.io/later/](http://bunkat.github.io/later/)] 实现。配置中每个 HASH 结构的意义如下：\r\n\r\n\t1. every：必填参数。任务执行的间隔，其中单位支持 hour，minute, second目前。\r\n\t2. after: 可选参数。示例中的 0 表示从每分钟的 0 second 开始计算。\r\n\t3. before：可选参数。示例中的 10 表示每分钟到 10 second 停止计时。\r\n\t4. fn：必填参数。执行的方法。示例中 \"hello#world\" 对应的是 tasks 文件夹下面的 hello 方法中的 exports.world 方法。\r\n\r\n\t运行方式\r\n\r\n\t\tegs timer #{app_name}\r\n\r\n\t示例中的代码会在每分钟的 0s，3s，6s，9s执行。\r\n\r\n## Model 使用（尚未完成，暂不可用）\t\r\n\r\n### Model 定义\r\n\r\n\tvar Model = require('egserver').Model;\r\n\r\n\tvar User = Model.extend('user', {\r\n\t\tname: 'String#randomString',\r\n\t\tage: 'Int',\r\n\t\tsex: 'String:female',\r\n\t\tcreate_at: 'DateTime#now'\r\n\t}[, options])\r\n\r\n\tUser.verify.age = function(age){\r\n\t\treturn age > 0;\r\n\t};\r\n\r\n\tUser.fn.randomString = function(){\r\n\t\r\n\t};\r\n\r\nModel.extend 有三个参数，第一个为当前 model 的名称，第二个为字段声明，是三个可选，为一些设置。\r\n\r\n字段说明的 key 为对应的字段，value 的格式为 类型#初始方法，或者 类型:初始值，当新实例化一个对象的时候，会根据用户输入的参数、默认值、默认方法的顺序进行查找（两者不能同时存在）。如果是初始方法的话，默认会使用 NewModel.fn[fn]中的方法的值作为默认值。\r\n\r\n示例中的 name 会在 create 时调用 User.fn.randomString 的返回值作为默认。sex 字段会使用 female 作为默认值。\r\n\r\n有一个特殊情况是 DateTime 和 Date，原生支持 now 方法，即当前时间（关于时间操作参考 Momentjs[[http://momentjs.com/](http://momentjs.com/)]）。\r\n\t\r\n其中类型支持有：\r\n\r\n1. Boolean\r\n2. String\r\n3. Int\r\n4. Float\r\n5. DateTime\r\n6. Date\r\n\r\noptions 参数为可选内容，支持的属性有（[]里面的为默认值）：\r\n\r\n1. mysql_only[false] 只使用 mysql 进行操作\r\n2. redis_only[false] 只使用 redis 进行操作\r\n3. ignore_id[false] 不自动添加 id\r\n4. expire[false] redis 的过期时间，false 则不设过期\r\n5. db_name[''] 强制指定 Mysql 表名\r\n6. redis_prefix[''] 强制使用 Redis 的 key 前缀\r\n\r\n### Model 查询\r\n\r\n1. find\r\n\r\n\t\tNewModel.find(model_id, function (model_obj) {})\r\n\r\n\tfind 在任何模式下都可以使用，但是在 mysql_only 或者 redis 设置过期时间 的模式下可能存在一定的数据错误率，回调中 model_obj 为 model 的实例对象。\r\n\r\n2. where\r\n\r\n\t\tNewModel.where(querys, function (model_objs) {}[, limit])\r\n\r\n\twhere 在 redis_only 模式下不能使用。querys 为具体的查询条件，回调函数中的 model_objs 为列表，limit为条数限制。\r\n\r\n\t/# querys #：支持等于、大于[gt]、小于[lt]、不等于[not_eql]以及Like[like]查询，示例如下：\r\n\r\n\t\t{\r\n\t\t\tage: {gt: 15, lt: 30, not_eql: 20},\r\n\t\t\tsex: 'female'\r\n\t\t}\r\n\r\n\t这段查询的意思是 年龄大于15且小于30且不等于20，且性别为female 的所有用户对象。\r\n\r\n\t/# limit #：支持数字和列表，数字的话则表示取最新的 n 条数据，否则如果是列表，例如 [5, 10]，表示第 6 到第 10 条数据。\r\n\r\n### Model 实例操作\r\n\r\n1. 新建：\r\n\r\n\t\tvar vt = User.create({\r\n\t\t\tname: 'Vincent Ting',\r\n\t\t\tage: -4\r\n\t\t}, function(errs, user_obj){\r\n\t\t\t// do something\r\n\t\t})\r\n\t\r\n\t其中第一个参数为每个字段的值，回调中 errs 为验证结果，为 list，例如本例中由于 age 不满足 > 0 的要求，这里 errs 的值会为 ['age']。\r\n\r\n2. 更新\r\n\r\n\t\tvt.age += 15;\r\n\r\n\t通过普通的赋值语句即可实现对属性的直接修改。\r\n\t\r\n3. 保存\r\n\t\r\n\t\tvt.saveRedis(function (errs, user_obj){})\r\n\t\tvt.saveDB(function (errs, user_obj){})\r\n\t\tvt.save(function (errs, user_obj){})\r\n\r\n\t三种更新方式，其中 saveRedis 在 mysql_only 的模式下会报错，saveDB会在 redis_only 的情况下报错。如果非特殊情况，使用 save方法既可以。 errs 的返回值与 create 相同。\r\n\r\n\t更新只会去更新修改过的字段。\r\n\r\n4. 销毁\r\n\r\n\t\tvt.destroyRedis(function (){})\r\n\t\tvt.destroyDB(function (){})\r\n\t\tvt.destroy(function (){})\r\n\r\n\t删除以及针对特定存储方式的删除。\r\n\r\n5. redis 的原子增\r\n\r\n\t### 高并发下重要操作\r\n\r\n\t该类操作只能针对 float 或者 int 字段，利用了redis原子性操作，保证了数据的正确性。\r\n\r\n\t\tvt.incrBy('age', 11, function (age){})\r\n\t\r\n\t这里会把 age 增加 11，回调中的 age 为更改后的 age 值。\r\n\r\n\tincrFloatBy 与该方法类似，但是只针对 Float 类型的字段。\r\n\r\n## 其他\r\n\r\n### 队列模型\r\n\r\n### 单例模型\r\n\r\n## 如何进行测试\r\n\r\n少安毋躁\r\n\r\n## 发布与管理\r\n\r\n少安毋躁\r\n\r\n## TODO\r\n\r\n1. ORM 的 relation（redis 手动索引）\r\n2. 自动建表命令以及活动下线后的缓存清理\r\n3. 使用 gaze 实现开发环境中的修改后自动重启\r\n4. Model 添加 required 功能，声明必填项目\r\n5. 项目中的自定义 config 以及获取方式的优化",
+    "readmeFilename": "README.md",
+    "bugs": {
+        "url": "https://github.com/egame/EGS/issues"
+    },
+    "homepage": "https://github.com/egame/EGS",
+    "_id": "egserver@0.0.15",
+    "_from": "egserver@*"
 }

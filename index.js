@@ -5,12 +5,14 @@ var Model = require('./lib/active_record/model');
 var Queue = require('./lib/active_record/queue');
 var Singleton = require('./lib/active_record/singleton');
 var db_pool = require('./lib/active_record/db_pool');
+var bodyParser = require('body-parser');
 
 // 项目初始化
 var app = express();
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.disable('x-powered-by');
+app.use(bodyParser());
 app.use(function (req, res, next) {
     res.setHeader('Powered-by', 'EGame');
     next();
