@@ -6,18 +6,18 @@ var Singleton = require('../../lib/active_record/singleton');
 
 describe('singleton init', function () {
     it('should have _options as expected', function (done) {
-        Singleton.create('test', {
+        Singleton.extend('test', {
             "num": "Int:15"
-        }, function (singleton) {
+        }).get(function (singleton) {
             singleton.id.should.equal('test');
             singleton.num.should.equal(15);
             done();
         })
     });
     it('should remain', function (done) {
-        Singleton.create('test', {
+        Singleton.extend('test', {
             "num": "Int"
-        }, function (singleton) {
+        }).get(function (singleton) {
             singleton.num.should.equal(15);
             done();
         })
