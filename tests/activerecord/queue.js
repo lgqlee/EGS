@@ -45,10 +45,7 @@ describe('queue size && popMulti', function () {
                 queue.push('2', function () {
                     queue.size(function (size) {
                         size.should.equal(2);
-                        queue.popMulti(2, function (list) {
-                            list.should.eql([1, 2]);
-                            done();
-                        });
+                        done();
                     })
                 });
             });
@@ -56,21 +53,14 @@ describe('queue size && popMulti', function () {
     });
 });
 
-describe('popMulti', function () {
+describe('pushMulti', function () {
     var queue = Queue.create('test', {db_name: 'test_queue_2'});
     it('should allow -1', function (done) {
         redis_conn.del(queue.queue_name, function () {
-            queue.push('1', function () {
-                queue.push('2', function () {
-                    queue.size(function (size) {
-                        size.should.equal(2);
-                        queue.popMulti(-1, function (list) {
-                            list.should.eql([1, 2]);
-                            done();
-                        });
-                    })
-                });
-            });
+            queue.pushMulti([1, 2, 3, 4], function(size){
+                size.should.equal(4);
+                done();
+            })
         });
     });
 });

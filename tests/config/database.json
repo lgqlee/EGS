@@ -13,7 +13,7 @@
     },
     "development": {
         "redis": {
-            "host": "202.102.105.251"
+            "host": "localhost"
         },
         "mysql": {
             "host": "localhost",
