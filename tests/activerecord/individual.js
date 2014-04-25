@@ -11,7 +11,7 @@ var redis_persist_key = require('../../lib/core_loader').config['sys']['redis_pe
 
 var test_table = 'test_table';
 
-var mysql_queue = new Queue('db_queue', {
+var mysql_queue = Queue.create('db_queue', {
     db_name: redis_persist_key
 });
 
