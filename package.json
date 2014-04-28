@@ -1,6 +1,6 @@
 {
     "name": "egserver",
-    "version": "0.0.23",
+    "version": "0.0.25",
     "description": "An web framework for play.cn",
     "main": "index",
     "repository": {
