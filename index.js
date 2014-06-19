@@ -14,6 +14,9 @@ app.set('port', process.env.PORT || 3000);
 app.disable('x-powered-by');
 app.use(bodyParser());
 app.use(function (req, res, next) {
+    if (app.get('env') == 'development') {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+    }
     res.setHeader('Powered-by', 'EGame');
     res.setHeader('Content-Type', 'application/json');
     res.setHeader('charset', 'utf-8');
