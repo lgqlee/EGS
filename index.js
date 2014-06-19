@@ -15,6 +15,8 @@ app.disable('x-powered-by');
 app.use(bodyParser());
 app.use(function (req, res, next) {
     res.setHeader('Powered-by', 'EGame');
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('charset', 'utf-8');
     next();
 });
 

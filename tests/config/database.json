@@ -1,26 +1,29 @@
 {
     "production": {
         "redis": {
-            "host": "localhost"
+            "host": "192.168.107.16",
+            "port": 6379,
+            "options": {
+
+            }
         },
         "mysql": {
-            "host": "localhost",
-            "user": "root",
-            "password": "930309",
-            "port": 3306,
-            "database": "production"
+
         }
     },
     "development": {
         "redis": {
-            "host": "localhost"
+            "host": "10.211.55.4",
+            "options": {
+
+            }
         },
         "mysql": {
-            "host": "localhost",
-            "user": "root",
-            "password": "930309",
+            "host": "10.211.55.4",
             "port": 3306,
-            "database": "development"
+            "user": "root",
+            "password": "123456",
+            "database": "egame"
         }
     }
 }

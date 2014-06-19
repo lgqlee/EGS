@@ -14,7 +14,7 @@ describe('sys config', function () {
         done();
     });
     it('should be database', function (done) {
-        config_loader.database['mysql']['database'].should.equal('development');
+        config_loader.database['mysql']['database'].should.equal('egame');
         done();
     });
 });
