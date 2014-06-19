@@ -6,6 +6,7 @@ var Queue = require('./lib/active_record/queue');
 var Singleton = require('./lib/active_record/singleton');
 var db_pool = require('./lib/active_record/db_pool');
 var bodyParser = require('body-parser');
+var getTask = require('./lib/task_parse').getTask;
 
 // 项目初始化
 var app = express();
@@ -46,7 +47,22 @@ module.exports.start = function (fn) {
                 app[route_obj.method](route_obj.url, route_obj.fn);
             }
         }
+        // TODO 添加定时任务接口
+        app.get('/sys/task', function (req, res) {
+            var app_name = req.param('app');
+            var task_name = req.param('task');
+            var fn;
+            try {
+                fn = (getTask(app_name, task_name));
+                fn(function () {
+                    res.send('ok');
+                })
+            } catch (_) {
+                res.send('fail');
+            }
+        });
     });
+
     // Http 服务启动，并将 fn 上下文更换至 app
     app.listen(app.get('port'));
     fn.apply(app);

@@ -9,5 +9,6 @@
             "before": 10,
             "fn": "hello#world"
         }
-    ]
+    ],
+    "demo": "hello#world"
 }
