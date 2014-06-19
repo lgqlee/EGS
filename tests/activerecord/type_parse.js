@@ -45,7 +45,14 @@ describe('Boolean', function () {
         done();
     });
     it('should return string', function (done) {
-        type_parse['Boolean'].dbFormat(true).should.equal(1);
+        type_parse['Boolean'].dbFormat(true).should.equal('1');
+        done();
+    });
+});
+
+describe('String', function () {
+    it('should return blank', function (done) {
+        type_parse['String'].parse(undefined).should.equal('');
         done();
     });
 });
