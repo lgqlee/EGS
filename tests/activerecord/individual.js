@@ -41,10 +41,6 @@ var User = Model.extend('user', {name: 'String:vt', age: 'Int:13', create_at: 'D
     expire: 100000
 });
 
-User.verify.age = function (age) {
-    return age > 0;
-};
-
 describe('model extend', function () {
     it('should exist __options', function (done) {
         User.create({}, function (err, vt) {
@@ -100,23 +96,6 @@ describe('model create', function () {
                 mysql_queue.pop(function (data) {
                     JSON.parse(data)['method'].should.equal('insert');
                     JSON.parse(data)['content']['id'].should.equal(user.id);
-                    done();
-                })
-            });
-        })
-    });
-});
-
-describe('model verify', function () {
-    it('should fail', function (done) {
-        mysql_queue.destroy(function () {
-            User.create({
-                name: 'vincent',
-                age: 22
-            }, function (err, user) {
-                user.age = -1;
-                user.save(function (err, _) {
-                    err.should.eql(['age']);
                     done();
                 })
             });
