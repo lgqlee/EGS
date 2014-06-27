@@ -13,7 +13,8 @@ var app = express();
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.disable('x-powered-by');
-app.use(bodyParser());
+app.use(bodyParser.urlencoded());
+app.use(bodyParser.json());
 app.use(function (req, res, next) {
     if (app.get('env') == 'development') {
         res.setHeader('Access-Control-Allow-Origin', '*');
