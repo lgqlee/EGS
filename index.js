@@ -13,10 +13,12 @@ var app = express();
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.disable('x-powered-by');
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use(bodyParser.json());
 app.use(function (req, res, next) {
-    if (app.get('env') == 'development') {
+    if (app.get('env') === 'development') {
         res.setHeader('Access-Control-Allow-Origin', '*');
     }
     res.setHeader('Powered-by', 'EGame');
@@ -30,6 +32,10 @@ module.exports = {
     Queue: Queue,
     Singleton: Singleton,
     db_pool: db_pool
+};
+
+module.exports.require = function (pkg_name) {
+    return require(core_loader.root_path + '/vendor/' + pkg_name);
 };
 
 module.exports.start = function (fn) {
@@ -48,7 +54,7 @@ module.exports.start = function (fn) {
                 app[route_obj.method](route_obj.url, route_obj.fn);
             }
         }
-        // TODO 添加定时任务接口
+        // 定时任务获取接口
         app.get('/sys/task', function (req, res) {
             var app_name = req.param('app');
             var task_name = req.param('task');

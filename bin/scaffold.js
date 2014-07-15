@@ -11,7 +11,7 @@ var package_json = function (name) {
         '   "description": "EGS app",',
         '   "scripts": {',
         '       "start": "node app.js",',
-        '       "test": "mocha tests/*/*.js"',
+        '       "test": "mocha apps/*/tests/*/*.js"',
         '   },',
         '   "dependencies": {',
         '       "egserver": "*"',
@@ -133,7 +133,7 @@ module.exports.create = function (name) {
             write(config_dir + '/database.json', database_json(name));
             write(config_dir + '/sys.json', sys_json);
         });
-        mkdir(current_dir + '/tests', create_keep);
+        mkdir(current_dir + '/vendor', create_keep);
         write(current_dir + '/app.js', app_js);
         write(current_dir + '/package.json', package_json(name));
     });
@@ -143,6 +143,7 @@ module.exports.generate = function (app_root, name) {
     mkdir(app_root + '/apps/' + name, function (app_dir) {
         mkdir(app_dir + '/tasks', create_keep);
         mkdir(app_dir + '/models', create_keep);
+        mkdir(app_dir + '/tests', create_keep);
         mkdir(app_dir + '/controllers', create_keep);
         mkdir(app_dir + '/config', function (config_dir) {
             write(config_dir + '/routes.json', routes_json);
