@@ -26,8 +26,9 @@ var package_json = function (name) {
 };
 
 var app_js = [
-    "var egs = require('egserver');",
-    'egs.start(function () {',
+    "require('egserver');",
+    '',
+    'EGS.launch(function () {',
     "    console.log('Server is running at port: ' + this.get('port'));",
     '});'
 ].join(eol);
