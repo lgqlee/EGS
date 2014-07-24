@@ -8,7 +8,7 @@ var package_json = function (name) {
     return [
         '{' ,
             '   "name": "' + name + '",',
-        '   "description": "EGS app",',
+        '   "description": "EgServer app",',
         '   "scripts": {',
         '       "start": "node app.js",',
         '       "test": "mocha apps/*/tests/*/*.js"',
@@ -28,8 +28,8 @@ var package_json = function (name) {
 var app_js = [
     "require('egserver');",
     '',
-    'EGS.launch(function () {',
-    "    console.log('Server is running at port: ' + this.get('port'));",
+    'EgServer.launch(function () {',
+    "    console.log('EgServer is running at port: ' + this.get('port'));",
     '});'
 ].join(eol);
 

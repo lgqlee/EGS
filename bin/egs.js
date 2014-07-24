@@ -49,17 +49,11 @@ switch (func_name) {
             });
         });
         break;
-    case 'start':
-
     case 'install':
         // 根据 args 来决定安装依赖的 apps，如果为空则调用全部 apps。
-        cur_apps = func_args.length ? func_args : apps;
         npm.load({}, function (err) {
             if (err) throw Error(err);
-            npm.on("log", function (message) {
-                if (arg) console.log(message)
-            });
-            cur_apps.forEach(function (app) {
+            apps.forEach(function (app) {
                 var requirements = config_load(app, 'requirements');
                 npm.commands.install(requirements, function (err) {
                     if (err) throw Error(err);
